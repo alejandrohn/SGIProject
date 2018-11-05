@@ -6,18 +6,18 @@ import {
 
 
 var lookAtCoord = {
-	x: 10,
-	y: 0,
-	z: 10
+	x: 140,
+	y: 50,
+	z: 150
 };
 
 var posCamera = {
-	x: 5,
-	y: 10,
-	z: 100
+	x: 150,
+	y: 50,
+	z: 150
 };
 
-var camera, scene, renderer;
+var camera, scene, renderer, stats, light;
 
 function initScene() {
 	scene = new THREE.Scene();
@@ -25,13 +25,13 @@ function initScene() {
 
 }
 
-function initCamera(typeOfCamara = 'persp',positionCamera = posCamera, lookAt = lookAtCoord) {
+function initCamera(typeOfCamara = 'persp', positionCamera = posCamera, lookAt = lookAtCoord) {
 
 	camera = setCamera(typeOfCamara);
 	camera.position.set(positionCamera.x, positionCamera.y, positionCamera.z);
 	camera.lookAt(lookAt.x, lookAt.y, lookAt.z);
-	camera.zoom = 4;
-	camera.updateProjectionMatrix();
+	// camera.zoom = 4;
+	// camera.updateProjectionMatrix();
 	return camera;
 
 }
@@ -44,14 +44,40 @@ function initRender() {
 
 	renderer = new THREE.WebGLRenderer({
 		canvas: canvas,
-		context: context
+		context: context,
+		antialias: true
 	});
-	renderer.setSize($(container).width(), 565);
+
+	//renderer.physicallyCorrectLights = true;
+
+	// renderer.toneMapping = THREE.ReinhardToneMapping;
+	// renderer.setPixelRatio(window.devicePixelRatio);
+	renderer.setSize($(container).width(), $(container).height());
+	renderer.shadowMap.enabled = true;
+	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+	// renderer.gammaInput = true;
+	// renderer.gammaOutput = true;
+
 	document.body.appendChild(renderer.domElement);
 	return renderer;
 }
 
+function initStats() {
+	var container = document.getElementById('canvasSection');
+	stats = new Stats();
+	container.appendChild(stats.dom);
+	return stats;
+}
+
+function initLight() {
+
+}
+
 
 export {
-	initScene, initCamera, initRender
+	initScene,
+	initCamera,
+	initRender,
+	initStats,
+	initLight
 };

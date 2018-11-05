@@ -1,0 +1,7 @@
+{
+	"open-in-browser.default": "firefox",
+	"jshint.config": "../../../../../../usr/local/bin/jshint",
+	"jshint.options": {
+		"esversion": 6
+	}
+}

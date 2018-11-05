@@ -2,24 +2,52 @@ import {
 	setColorThree
 } from './color.js';
 
-function createCube(geometryBox = {
+function createCube(hasTexture = true, color = setColorThree(20, 20, 200), geometryBox = {
 	width: 23,
 	height: 23,
 	depth: 23
-}, color = setColorThree(15, 50, 40)) {
+}) {
 	var cubeGeometry = new THREE.BoxGeometry(geometryBox.width, geometryBox.height, geometryBox.depth);
-	var cubeMaterial = new THREE.MeshBasicMaterial({
-		color: color
-	});
-	cubeGeometry.translate(0, 20, 10.5);
+
+	for (var i = 0; i < cubeGeometry.faces.length; i++) {
+		cubeGeometry.faces[i].color.setHex(Math.random() * 0xffffff);
+	}
+	var cubeMaterial;
+	if (hasTexture) {
+		var textureLoader = new THREE.TextureLoader();
+		var createTexture = textureLoader.load('../../img/images.png');
+		var createdBumpMap = textureLoader.load('../../img/images.png');
+
+		cubeMaterial = new THREE.MeshBasicMaterial({
+			color: 0xffffff,
+			vertexColors: THREE.FaceColors,
+			map: createTexture,
+			bumMap: createdBumpMap
+		});
+	} else {
+		cubeMaterial = new THREE.MeshBasicMaterial({
+			color: 0xffffff,
+			vertexColors: THREE.FaceColors,
+			map: createTexture,
+			bumMap: createdBumpMap
+		});
+	}
+
+
+
 	var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+	cube.castShadow = true;
+	cube.receiveShadow = false;
 	cubePosition(cube);
-	cube.scale.set( 1,1,1 );
 	return cube;
 }
 
-
 var SPEED = 0.01;
+
+
+function setSpeedCube(value) {
+	SPEED = value;
+}
 
 function rotateCube(cube) {
 	cube.rotation.x -= SPEED * 2;
@@ -28,9 +56,9 @@ function rotateCube(cube) {
 }
 
 function cubePosition(cube, pos = {
-	x: -100,
-	y: 10,
-	z: 10
+	x: 140,
+	y: 40,
+	z: 30
 }) {
 	cube.position.x = pos.x;
 	cube.position.y = pos.y;

@@ -1,4 +1,4 @@
-var cameraPerspective = new THREE.PerspectiveCamera(170, window.innerWidth / window.innerHeight, 0.1, 1000);
+var cameraPerspective  = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 1, 1000 );
 
 
 var cameraAxonometrica = new THREE.OrthographicCamera(window.innerWidth / -2,
